@@ -1,14 +1,23 @@
-OBJECTS = loader.o kmain.o io.o
-CC = gcc
-CFLAGS = -m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector -nostartfiles -nodefaultlibs -Wall -Wextra -Werror -c
-LDFLAGS = -T link.ld -melf_i386
-AS = nasm
-ASFLAGS = -f elf
+CC=gcc
+CFLAGS=-m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector -nostartfiles -nodefaultlibs -Wall -Wextra -Werror -c
+LDFLAGS=-T link.ld -melf_i386
+
+AS=nasm
+ASFLAGS=-f elf
+
+BUILD_DIR=build
+SRC_DIR=.
+
+S_SRC=$(wildcard $(SRC_DIR)/*.s)
+S_OBJECTS=$(S_SRC:$(SRC_DIR)/%.s=$(BUILD_DIR)/%.o) 
+
+C_SRC=$(wildcard $(SRC_DIR)/*.c)
+C_OBJECTS=$(C_SRC:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o) 
 
 all: kernel.elf
 
-kernel.elf: $(OBJECTS)
-	ld $(LDFLAGS) $(OBJECTS) -o iso/boot/kernel.elf
+kernel.elf: $(S_OBJECTS) $(C_OBJECTS)
+	ld $(LDFLAGS) $^ -o iso/boot/kernel.elf
 
 os.iso: kernel.elf
 	genisoimage -R                              \
@@ -25,11 +34,14 @@ os.iso: kernel.elf
 run: os.iso
 	qemu-system-i386 -monitor stdio -cdrom os.iso -m 1024
 
-%.o: %.c
-	$(CC) $(CFLAGS)  $< -o $@
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.s | $(BUILD_DIR)
+	$(AS) $(ASFLAGS) -o $@ $<
 
-%.o: %.s
-	$(AS) $(ASFLAGS) $< -o $@
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(BUILD_DIR)
+	$(CC) $(CFLAGS) -o $@ $<
+
+$(BUILD_DIR):
+	@mkdir -p build
 
 clean:
-	rm -rf *.o kernel.elf os.iso
+	rm -rf *.o kernel.elf os.iso build/
