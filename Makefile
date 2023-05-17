@@ -1,12 +1,12 @@
 CC=gcc
-CFLAGS=-m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector -nostartfiles -nodefaultlibs -Wall -Wextra -Werror -c
+CFLAGS=-m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector -nostartfiles -nodefaultlibs -Wall -Wextra -Werror -c -Isrc/include
 LDFLAGS=-T link.ld -melf_i386
 
 AS=nasm
 ASFLAGS=-f elf
 
 BUILD_DIR=build
-SRC_DIR=.
+SRC_DIR=src
 
 S_SRC=$(wildcard $(SRC_DIR)/*.s)
 S_OBJECTS=$(S_SRC:$(SRC_DIR)/%.s=$(BUILD_DIR)/%.o) 
