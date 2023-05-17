@@ -1,3 +1,4 @@
 *.o
 os.iso
 kernel.elf
+*.backup
