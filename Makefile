@@ -44,4 +44,4 @@ $(BUILD_DIR):
 	@mkdir -p build
 
 clean:
-	rm -rf *.o kernel.elf os.iso build/
+	rm -rf *.o kernel.elf os.iso build/ iso/boot/kernel.elf
