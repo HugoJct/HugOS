@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector -nostartfiles -nodefaultlibs -Wall -Wextra -Werror -c -Isrc/include
+CFLAGS=-m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector -nostartfiles -nodefaultlibs -Wall -Wextra -Werror -c -Isrc/include -std=gnu17
 LDFLAGS=-T link.ld -melf_i386
 
 AS=nasm
@@ -32,7 +32,7 @@ os.iso: kernel.elf
 		iso
 
 run: os.iso
-	qemu-system-i386 -monitor stdio -cdrom os.iso -m 1024
+	qemu-system-i386 -monitor stdio -cdrom os.iso -m 1G
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.s | $(BUILD_DIR)
 	$(AS) $(ASFLAGS) -o $@ $<
