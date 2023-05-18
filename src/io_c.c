@@ -44,6 +44,9 @@ int fb_write(char *buf) {
 			case '\t':
 				cursor_pos += 4;
 				break;
+			case '\r':
+				cursor_pos -= (cursor_pos % 80) + 1;
+				break;
 			default:
 				fb_write_char(cursor_pos, *buf, fg_color, bg_color);
 		}
