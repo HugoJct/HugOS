@@ -28,8 +28,4 @@ loader:                         ; the loader label (defined as entry point in li
 
 	extern kmain
 	call kmain		;call main function 
-
-
-.loop:
-   	jmp .loop                   ; loop forever
 ;===============================;

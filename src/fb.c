@@ -1,10 +1,19 @@
+#include "fb.h"
 #include "io.h"
 
 static unsigned int cursor_pos = 0;
 static unsigned char fg_color = FB_WHITE;
 static unsigned char bg_color = FB_BLACK;
 
-void fb_write_char(unsigned int i, char c, unsigned char fg, unsigned char bg) {
+/**
+ * Writes the specified character at the specified offset
+ *
+ * @param pos 	The position at which to prints the character 
+ * @param c 	The character to display
+ * @param fg 	The foreground color of the character
+ * @param bg 	The background color of the character
+ */
+static void fb_write_char(unsigned int i, char c, unsigned char fg, unsigned char bg) {
 
 	char *fb = (char *) 0x000B8000;
 
@@ -12,7 +21,12 @@ void fb_write_char(unsigned int i, char c, unsigned char fg, unsigned char bg) {
 	fb[(i * 2) + 1] = ((bg & 0x0F) << 4) | (fg & 0x0F);
 }
 
-void fb_move_cursor(unsigned short pos) {
+/**
+ * Moves the cursor of the framebuffer to the given position
+ *
+ * @param pos 	The new position of the cursor
+ */
+static void fb_move_cursor(unsigned short pos) {
 
 	outb(FB_COMMAND_PORT, FB_HIGH_BYTE_COMMAND);
 	outb(FB_DATA_PORT, ((pos >> 8) & 0x00FF));

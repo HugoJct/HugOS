@@ -14,12 +14,12 @@ S_OBJECTS=$(S_SRC:$(SRC_DIR)/%.s=$(BUILD_DIR)/%.o)
 C_SRC=$(wildcard $(SRC_DIR)/*.c)
 C_OBJECTS=$(C_SRC:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o) 
 
-all: kernel.elf
+all: iso/boot/kernel.elf
 
-kernel.elf: $(S_OBJECTS) $(C_OBJECTS)
+iso/boot/kernel.elf: $(S_OBJECTS) $(C_OBJECTS)
 	ld $(LDFLAGS) $^ -o iso/boot/kernel.elf
 
-os.iso: kernel.elf
+os.iso: iso/boot/kernel.elf
 	genisoimage -R                              \
 		-b boot/grub/stage2_eltorito    \
 		-no-emul-boot                   \
