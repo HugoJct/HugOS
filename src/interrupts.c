@@ -23,5 +23,5 @@ void init_entry(struct idt_entry *entry, unsigned int *function, unsigned short 
 	entry->offset_1 = *function & 0xFF00;
 	entry->offset_2 = *function & 0x00FF;
 	entry->zero = 0;
-	entry->selector = 0;
+	entry->selector = position;
 }

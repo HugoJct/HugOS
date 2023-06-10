@@ -37,6 +37,7 @@ common_interrupt_handler:
 	push esi
 	push edi
 
+	mov eax, 0xCAFEBABE
 	extern interrupt_handler
 	call interrupt_handler
 
