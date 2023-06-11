@@ -1,51 +1,40 @@
 #include "gdt.h"
 
-static struct segment_descriptor _gdt[3];
-static struct gdt gdt;
+uint64_t _gdt[3];
 
-void gdt_init_desc(struct segment_descriptor *desc, unsigned int privilege_level, unsigned int type, unsigned int executable, unsigned int readable, unsigned int writable, unsigned int base, unsigned int limit) {
+void gdt_init_desc(uint64_t *desc, uint32_t base, uint32_t limit, uint16_t flag) {
 
-	//p
-	desc->access = 1<<7;
+	uint64_t descriptor;
 
-	//dpl
-	desc->access |= privilege_level << 5;
+	// Create the high 32 bit segment
+	descriptor =  limit       & 0x000F0000;         // set limit bits 19:16
+	descriptor |= (flag <<  8) & 0x00F0FF00;         // set type, p, dpl, s, g, d/b, l and avl fields
+	descriptor |= (base >> 16) & 0x000000FF;         // set base bits 23:16
+	descriptor |=  base        & 0xFF000000;         // set base bits 31:24
 
-	//s
-	desc->access |= type<<4;
+	// Shift by 32 to allow for low part of segment
+	descriptor <<= 32;
 
-	//e
-	desc->access |= executable << 3;
+	// Create the low 32 bit segment
+	descriptor |= base  << 16;                       // set base bits 15:0
+	descriptor |= limit  & 0x0000FFFF;
 
-	//rw 
-	if(desc->access & (1<<4)) {	//if not system segment
+	*desc = descriptor;
 
-		if(desc->access & (1<<3)) {	//if code segment
-
-			desc->access |= readable<<1;
-		} else { 		//data segment
-
-			desc->access |= writable<<1;
-		}
-	}
-
-	desc->base_high = base & 0xFF000000;
-	desc->base_middle |= base & 0x00FF0000;
-	desc->base_low |= base & 0x0000FFFF;
-
-	desc->limit_high = limit & 0xF0000000;
-	desc->limit_low |= limit & 0x0FFFFFFF;
 }
 
 void gdt_init() {
 
-	gdt_init_desc(&_gdt[0], 0, 0, 0, 0, 0, 0, 0);
-	gdt_init_desc(&_gdt[1], 0, 1, 1, 1, 1, 0, 0xFFFFFFFF);
-	gdt_init_desc(&_gdt[1], 0, 1, 0, 0, 1, 1, 0xFFFFFFFF);
+	struct gdt new_gdt;
 
-	gdt.size = sizeof(struct segment_descriptor) * 3 - 1;
-	gdt.address = (unsigned int) _gdt;
+	gdt_init_desc(&_gdt[0], 0, 0x000FFFFF, 0);
+	gdt_init_desc(&_gdt[1], 0, 0x000FFFFF, GDT_CODE_PL0);
+	gdt_init_desc(&_gdt[2], 0, 0x000FFFFF, GDT_DATA_PL0);
 
-	load_gdt(&gdt);
+	new_gdt.size = sizeof(uint64_t) * 3 - 1;
+	new_gdt.address = (unsigned int) _gdt;
+
+	load_gdt(&new_gdt);
+	gdt_init_reg();
 }
 

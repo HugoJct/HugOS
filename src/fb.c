@@ -1,5 +1,6 @@
 #include "fb.h"
 #include "io.h"
+#include "gdt.h"
 
 static unsigned int cursor_pos = 0;
 static unsigned char fg_color = FB_WHITE;
@@ -73,3 +74,4 @@ int fb_write(char *buf) {
 
 	return 0;
 }
+

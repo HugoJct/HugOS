@@ -20,6 +20,8 @@ void init_entry(struct idt_entry *entry, unsigned int *function, unsigned short 
 
 	(void) position;
 
+	fb_write("entry initialiazed\n");
+
 	entry->offset_1 = *function & 0xFF00;
 	entry->offset_2 = *function & 0x00FF;
 	entry->zero = 0;
