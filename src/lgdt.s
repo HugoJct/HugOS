@@ -1,7 +1,6 @@
 global load_gdt
 global gdt_init_reg
 
-
 ; Loads the provided Global Descriptor Table (GDT)
 ; @param [esp + 4] 	The address of the GDT to load
 ; @return void
@@ -20,6 +19,6 @@ gdt_init_reg:
 	mov fs, ax
 	mov gs, ax
 
-	jmp 0x08:flush_cs
+	jmp 0x08:flush_cs	; "far jump": jump to flush_cs and set cs to 0x08 (jump does nothing here but cs is set)
 flush_cs:
 	ret

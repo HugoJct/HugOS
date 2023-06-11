@@ -27,23 +27,21 @@ enum color {
 };
 
 /**
- * Sets the colors the framebuffer
- *
- * @param fg 	The Foreground color
- * @param bg	The Background color
+ * Writes a white message on the screen
+ * @param msg	The message to display
  */
-void fb_set_color(unsigned char fg, unsigned char bg);
+void fb_info(char *msg);
 
 /**
- * Clears the screen
+ * Writes a green message on the screen
+ * @param msg	The message to display
  */
-void fb_clear(void);
+void fb_success(char *msg);
 
 /**
- * Prints the given string to the screen
- *
- * @param buf	The string to display
+ * Writes a red message on the screen
+ * @param msg	The message to display
  */
-int fb_write(char *buf);
+void fb_error(char *msg);
 
 #endif

@@ -6,9 +6,6 @@
 
 int kmain(void) {
 
-	fb_clear();
-	fb_set_color(FB_GREEN, FB_BLACK);
-
 	gdt_init();
 	/*
 	pic_remap(PIC1, PIC2);
@@ -18,9 +15,8 @@ int kmain(void) {
 	load_idt( (unsigned int *) &idt_entries[0]);
 
 	*/
-	char *str = "Hello World !\n";
 
-	fb_write(str);
+	fb_info("Hello World !");
 
 	while(1) {}
 

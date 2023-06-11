@@ -1,8 +1,12 @@
 #include "gdt.h"
+#include "fb.h"
 
-uint64_t _gdt[3];
+#define GDT_SEGMENTS_COUNT 3
 
-void gdt_init_desc(uint64_t *desc, uint32_t base, uint32_t limit, uint16_t flag) {
+static struct segment_descriptor _gdt_segments[GDT_SEGMENTS_COUNT];
+static struct gdt _gdt;
+
+void gdt_init_desc(struct segment_descriptor *desc, uint32_t base, uint32_t limit, uint16_t flag) {
 
 	uint64_t descriptor;
 
@@ -19,22 +23,41 @@ void gdt_init_desc(uint64_t *desc, uint32_t base, uint32_t limit, uint16_t flag)
 	descriptor |= base  << 16;                       // set base bits 15:0
 	descriptor |= limit  & 0x0000FFFF;
 
-	*desc = descriptor;
-
+	//put values into the segment descriptor
+	desc->limit_low = descriptor & 0xFFFF;
+	desc->base_low = (descriptor >> 16) & 0xFFFF;
+	desc->base_middle = (descriptor >> 32) & 0xFF;
+	desc->access = (descriptor >> 40) & 0xFF;
+	desc->flags = (descriptor >> 48) & 0xFF;
+	desc->base_high = (descriptor >> 56) & 0xFF;
 }
 
 void gdt_init() {
 
-	struct gdt new_gdt;
+	fb_info("[GDT] - Initializing...");
 
-	gdt_init_desc(&_gdt[0], 0, 0x000FFFFF, 0);
-	gdt_init_desc(&_gdt[1], 0, 0x000FFFFF, GDT_CODE_PL0);
-	gdt_init_desc(&_gdt[2], 0, 0x000FFFFF, GDT_DATA_PL0);
+	//first segment in array is null
+	gdt_init_desc(&_gdt_segments[0], 0, 0x000FFFFF, 0);
 
-	new_gdt.size = sizeof(uint64_t) * 3 - 1;
-	new_gdt.address = (unsigned int) _gdt;
+	//second segment defines code segment for kernel
+	gdt_init_desc(&_gdt_segments[1], 0, 0x000FFFFF, GDT_CODE_PL0);
 
-	load_gdt(&new_gdt);
+	//third segment defines data segment for kernel
+	gdt_init_desc(&_gdt_segments[2], 0, 0x000FFFFF, GDT_DATA_PL0);
+
+	_gdt.size = sizeof(uint64_t) * GDT_SEGMENTS_COUNT - 1;	// -1 from doc
+	_gdt.address = (unsigned int) _gdt_segments;
+
+	fb_success("\tSuccess !");
+
+	//load GDT into processor
+	fb_info("[GDT] - Loading...");
+	load_gdt(&_gdt);
+	fb_success("\tSuccess !");
+
+	//initialize segment registers
+	fb_info("[GDT] - Initializing registers...");
 	gdt_init_reg();
+	fb_success("\tSuccess !");
 }
 

@@ -63,7 +63,7 @@ struct gdt {
 /**
  *	gdt.c
  */
-void gdt_init_desc(uint64_t *desc, uint32_t base, uint32_t limit, uint16_t flag);
+void gdt_init_desc(struct segment_descriptor *desc, uint32_t base, uint32_t limit, uint16_t flag);
 void gdt_init(void);
 
 /**
