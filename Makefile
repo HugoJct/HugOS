@@ -1,9 +1,9 @@
 CC=gcc
-CFLAGS=-m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector -nostartfiles -nodefaultlibs -Wall -Wextra -Werror -c -Isrc/include -std=gnu17
+CFLAGS=-m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector -nostartfiles -nodefaultlibs -Wall -Wextra -Werror -c -Isrc/include -std=gnu17 -g
 LDFLAGS=-T link.ld -melf_i386
 
 AS=nasm
-ASFLAGS=-f elf
+ASFLAGS=-f elf -g
 
 BUILD_DIR=build
 SRC_DIR=src
@@ -33,6 +33,9 @@ os.iso: iso/boot/kernel.elf
 
 run: os.iso
 	qemu-system-i386 -monitor stdio -cdrom os.iso -m 1G
+
+debug: os.iso
+	gdb --command=gdbcmd.txt
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.s | $(BUILD_DIR)
 	$(AS) $(ASFLAGS) -o $@ $<

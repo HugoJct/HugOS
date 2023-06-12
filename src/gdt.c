@@ -37,15 +37,15 @@ void gdt_init() {
 	fb_info("[GDT] - Initializing...");
 
 	//first segment in array is null
-	gdt_init_desc(&_gdt_segments[0], 0, 0x000FFFFF, 0);
+	gdt_init_desc(&_gdt_segments[0], 0, 0, 0);
 
 	//second segment defines code segment for kernel
-	gdt_init_desc(&_gdt_segments[1], 0, 0x000FFFFF, GDT_CODE_PL0);
+	gdt_init_desc(&_gdt_segments[1], 0, 0xFFFFFFFF, (GDT_CODE_PL0));
 
 	//third segment defines data segment for kernel
-	gdt_init_desc(&_gdt_segments[2], 0, 0x000FFFFF, GDT_DATA_PL0);
+	gdt_init_desc(&_gdt_segments[2], 0, 0xFFFFFFFF, (GDT_DATA_PL0));
 
-	_gdt.size = sizeof(uint64_t) * GDT_SEGMENTS_COUNT - 1;	// -1 from doc
+	_gdt.size = sizeof(struct segment_descriptor) * GDT_SEGMENTS_COUNT - 1;	// -1 from doc
 	_gdt.address = (unsigned int) _gdt_segments;
 
 	fb_success("\tSuccess !");

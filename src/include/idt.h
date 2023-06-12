@@ -3,16 +3,16 @@
 
 #include "stdint.h"
 
-struct idt_entry{
+struct idt_entry {
 
-	uint16_t offset_1;        // offset bits 0..15
-	uint8_t  zero;            // unused, set to 0
-	uint8_t  type_attributes; // gate type, dpl, and p fields
-	uint16_t selector;        // a code segment selector in GDT or LDT
-	uint16_t offset_2; 
-} __attribute__((packed)) ;
+	uint16_t    isr_low;      // The lower 16 bits of the ISR's address
+	uint16_t    kernel_cs;    // The GDT segment selector that the CPU will load into CS before calling the ISR
+	uint8_t     reserved;     // Set to zero
+	uint8_t     attributes;   // Type and attributes; see the IDT page
+	uint16_t    isr_high;     // The higher 16 bits of the ISR's address
+} __attribute__((packed));
 
-struct cpu_state{
+struct cpu_state {
 
 	unsigned int eax;
 	unsigned int ecx;
@@ -24,18 +24,21 @@ struct cpu_state{
 	unsigned int edi;
 } __attribute__((packed));
 
-struct stack_state{
+struct stack_state {
 
 	unsigned int error_code;
 	unsigned int eip;
 	unsigned int cs;
 	unsigned int eflags;
+} __attribute__((packed));
+
+struct idtr_t {
+	unsigned short size;
+	unsigned int address;
 } __attribute__((packed)) ;
 
-void interrupt_handler(struct cpu_state cpu, struct stack_state stack, unsigned int interrupt);
-void init_entry(struct idt_entry *entry, unsigned int *function, unsigned short position);
+void load_idt(struct idtr_t *addr);
 
-extern void load_idt(unsigned int *addr);
-extern void interrupt_handler_0(void);
+void idt_init();
 
 #endif

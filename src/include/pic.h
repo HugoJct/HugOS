@@ -28,4 +28,11 @@
 
 void pic_remap(int offset1, int offset2);
 
+/** pic_acknowledge:
+ * Acknowledges an interrupt from either PIC 1 or PIC 2.
+ *
+ * @param num The number of the interrupt
+ */
+void pic_acknowledge(unsigned int interrupt);
+
 #endif

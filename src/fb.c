@@ -117,3 +117,4 @@ void fb_error(char *msg) {
 	fb_write(msg);
 	fb_write("\n");
 }
+
