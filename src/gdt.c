@@ -34,7 +34,7 @@ void gdt_init_desc(struct segment_descriptor *desc, uint32_t base, uint32_t limi
 
 void gdt_init() {
 
-	fb_info("[GDT] - Initializing...");
+	fb_info("[GDT] - Initializing...\n");
 
 	//first segment in array is null
 	gdt_init_desc(&_gdt_segments[0], 0, 0, 0);
@@ -48,16 +48,16 @@ void gdt_init() {
 	_gdt.size = sizeof(struct segment_descriptor) * GDT_SEGMENTS_COUNT - 1;	// -1 from doc
 	_gdt.address = (unsigned int) _gdt_segments;
 
-	fb_success("\tSuccess !");
+	fb_success("\tSuccess !\n");
 
 	//load GDT into processor
-	fb_info("[GDT] - Loading...");
+	fb_info("[GDT] - Loading...\n");
 	load_gdt(&_gdt);
-	fb_success("\tSuccess !");
+	fb_success("\tSuccess !\n");
 
 	//initialize segment registers
-	fb_info("[GDT] - Initializing registers...");
+	fb_info("[GDT] - Initializing registers...\n");
 	gdt_init_reg();
-	fb_success("\tSuccess !");
+	fb_success("\tSuccess !\n");
 }
 

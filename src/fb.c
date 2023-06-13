@@ -84,6 +84,12 @@ int fb_write(char *buf) {
 			case '\r':
 				cursor_pos -= (cursor_pos % 80) + 1;
 				break;
+			case 0x08:
+				cursor_pos--;
+				fb_write_char(cursor_pos, ' ',fg_color, bg_color);
+				cursor_pos--;
+				fb_move_cursor(cursor_pos);
+				break;
 			default:
 				fb_write_char(cursor_pos, *buf, fg_color, bg_color);
 		}
@@ -101,20 +107,17 @@ void fb_info(char *msg) {
 	
 	fb_set_color(FB_LIGHT_GREY, FB_BLACK);
 	fb_write(msg);
-	fb_write("\n");
 }
 
 void fb_success(char *msg) {
 	
 	fb_set_color(FB_GREEN, FB_BLACK);
 	fb_write(msg);
-	fb_write("\n");
 }
 
 void fb_error(char *msg) {
 	
 	fb_set_color(FB_RED, FB_BLACK);
 	fb_write(msg);
-	fb_write("\n");
 }
 

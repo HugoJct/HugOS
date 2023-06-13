@@ -82,11 +82,13 @@ no_error_code_interrupt_handler 28
 no_error_code_interrupt_handler 29
 error_code_interrupt_handler    30
 no_error_code_interrupt_handler 31
+no_error_code_interrupt_handler 32
+no_error_code_interrupt_handler 33
 
 global isr_stub_table
 isr_stub_table:
 %assign i 0 
-%rep    32 
+%rep    34
     dd interrupt_handler_%+i
 %assign i i+1 
 %endrep

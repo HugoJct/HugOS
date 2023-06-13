@@ -6,12 +6,15 @@
 int kmain(void) {
 
 	gdt_init();
-	pic_remap(0x20, 0x28);
+	pic_remap(PIC1_START_INTERRUPT, PIC2_START_INTERRUPT);
 	idt_init();
 
-	fb_info("Hello World !");
+	fb_info("Hello World !\n");
 
-	while(1) {}
+	while(1) {
+		int i = 0;
+		i += 1;
+	}
 
 	return 0;
 }

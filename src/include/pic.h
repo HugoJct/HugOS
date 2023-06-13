@@ -12,7 +12,7 @@
 #define PIC2_START_INTERRUPT 0x28
 #define PIC2_END_INTERRUPT (PIC2_START_INTERRUPT + 7)
 
-#define PIC_EOI		0x20		/* End-of-interrupt command code */
+#define PIC_ACK		0x20		/* End-of-interrupt command code */
 
 #define ICW1_ICW4	0x01		/* Indicates that ICW4 will be present */
 #define ICW1_SINGLE	0x02		/* Single (cascade) mode */
@@ -25,6 +25,23 @@
 #define ICW4_BUF_SLAVE	0x08		/* Buffered mode/slave */
 #define ICW4_BUF_MASTER	0x0C		/* Buffered mode/master */
 #define ICW4_SFNM	0x10		/* Special fully nested (not) */
+
+#define PIC_TIMER_INT 		0
+#define PIC_KEYBOARD_INT 	1
+#define PIC_PIC2_INT 		2
+#define PIC_COM2_INT		3
+#define PIC_COM1_INT		4
+#define PIC_LPT2_INT		5
+#define PIC_FLOPPY_INT		6
+#define PIC_LPT1_INT		7
+#define PIC_CLOCK_INT		8
+#define PI_IO1_INT		9
+#define PIC_IO2_INT		10
+#define PIC_IO3_INT		11
+#define PIC_IO4_INT		12
+#define PIC_COPROC_INT		13
+#define PIC_IDE_1		14
+#define PIC_IDE_2 		15
 
 void pic_remap(int offset1, int offset2);
 

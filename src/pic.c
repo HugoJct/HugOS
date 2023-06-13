@@ -3,9 +3,37 @@
 #include "fb.h"
 #include "stdint.h"
 
+void IRQ_set_mask(unsigned char IRQline) {
+	uint16_t port;
+	uint8_t value;
+
+	if(IRQline < 8) {
+		port = PIC1_DATA;
+	} else {
+		port = PIC2_DATA;
+		IRQline -= 8;
+	}
+	value = inb(port) | (1 << IRQline);
+	outb(port, value);
+}
+
+void IRQ_clear_mask(unsigned char IRQline) {
+	uint16_t port;
+	uint8_t value;
+
+	if(IRQline < 8) {
+		port = PIC1_DATA;
+	} else {
+		port = PIC2_DATA;
+		IRQline -= 8;
+	}
+	value = inb(port) & ~(1 << IRQline);
+	outb(port, value);
+}
+
 void pic_remap(int offset1, int offset2) {
 
-	fb_info("[PIC] - Remapping...");
+	fb_info("[PIC] - Remapping...\n");
 
 	unsigned char a1, a2;
 
@@ -27,10 +55,13 @@ void pic_remap(int offset1, int offset2) {
 	outb(PIC1_DATA, a1);   // restore saved masks.
 	outb(PIC2_DATA, a2);
 
-	fb_success("\tSuccess !");
+	IRQ_set_mask(PIC_TIMER_INT);
+
+	fb_success("\tSuccess !\n");
 }
 
 void pic_acknowledge(unsigned int interrupt) {
+
 
 	if (interrupt < PIC1_START_INTERRUPT || interrupt > PIC2_END_INTERRUPT) {
 
@@ -39,7 +70,8 @@ void pic_acknowledge(unsigned int interrupt) {
 
 	if (interrupt > PIC2_START_INTERRUPT) {
 
-		outb(PIC2, PIC_EOI);
+		outb(PIC2, PIC_ACK);
 	}
-	outb(PIC1, PIC_EOI);
+	outb(PIC1, PIC_ACK);
 }
+
