@@ -8,3 +8,8 @@
 
 ### **17/05/2023**:
   - Prints "Hello World" character by character
+
+### **13/06/2023**:
+  - Segmentation implemented 
+  - Interruptions correctly handled
+  - Display of user keyboard input
