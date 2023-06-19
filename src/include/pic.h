@@ -35,7 +35,7 @@
 #define PIC_FLOPPY_INT		6
 #define PIC_LPT1_INT		7
 #define PIC_CLOCK_INT		8
-#define PI_IO1_INT		9
+#define PIC_IO1_INT		9
 #define PIC_IO2_INT		10
 #define PIC_IO3_INT		11
 #define PIC_IO4_INT		12
@@ -43,6 +43,26 @@
 #define PIC_IDE_1		14
 #define PIC_IDE_2 		15
 
+/**
+ * Masks the provided interrupt (masked interrupts are not notified to the kernel)
+ *
+ *  @param interrupt_number:	The interrupt to mask
+ */
+void PIC_mask_interrupt(unsigned char interrupt_number);
+
+/**
+ * Unmasks the provided interrupt
+ *
+ *  @param interrupt_number:	The interrupt to unmask
+ */
+void PIC_unmask_interrupt(unsigned char interrupt_number);
+
+/**
+ * Remaps the PIC's interrupt numbers to begin at 32 to prevent conflicts with CPU interrupts
+ *
+ * @param offset1:	The offset for the first PIC
+ * @param offset2:	The offset for the second PIC
+ */
 void pic_remap(int offset1, int offset2);
 
 /** pic_acknowledge:

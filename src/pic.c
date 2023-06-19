@@ -3,31 +3,31 @@
 #include "fb.h"
 #include "stdint.h"
 
-void IRQ_set_mask(unsigned char IRQline) {
+void PIC_mask_interrupt(unsigned char interrupt_number) {
 	uint16_t port;
 	uint8_t value;
 
-	if(IRQline < 8) {
+	if(interrupt_number < 8) {
 		port = PIC1_DATA;
 	} else {
 		port = PIC2_DATA;
-		IRQline -= 8;
+		interrupt_number -= 8;
 	}
-	value = inb(port) | (1 << IRQline);
+	value = inb(port) | (1 << interrupt_number);
 	outb(port, value);
 }
 
-void IRQ_clear_mask(unsigned char IRQline) {
+void PIC_unmask_interrupt(unsigned char interrupt_number) {
 	uint16_t port;
 	uint8_t value;
 
-	if(IRQline < 8) {
+	if(interrupt_number < 8) {
 		port = PIC1_DATA;
 	} else {
 		port = PIC2_DATA;
-		IRQline -= 8;
+		interrupt_number -= 8;
 	}
-	value = inb(port) & ~(1 << IRQline);
+	value = inb(port) & ~(1 << interrupt_number);
 	outb(port, value);
 }
 
@@ -55,7 +55,7 @@ void pic_remap(int offset1, int offset2) {
 	outb(PIC1_DATA, a1);   // restore saved masks.
 	outb(PIC2_DATA, a2);
 
-	IRQ_set_mask(PIC_TIMER_INT);
+	PIC_mask_interrupt(PIC_TIMER_INT);
 
 	fb_success("\tSuccess !\n");
 }
