@@ -7,6 +7,7 @@ static bool init = true;
 static unsigned int cursor_pos = 0;
 static unsigned char fg_color = FB_WHITE;
 static unsigned char bg_color = FB_BLACK;
+static char *fb = (char *) 0x000B8000;
 
 /**
  * Writes the specified character at the specified offset
@@ -17,8 +18,6 @@ static unsigned char bg_color = FB_BLACK;
  * @param bg 	The background color of the character
  */
 static void fb_write_char(unsigned int i, char c, unsigned char fg, unsigned char bg) {
-
-	char *fb = (char *) 0x000B8000;
 
 	fb[i * 2] = c;
 	fb[(i * 2) + 1] = ((bg & 0x0F) << 4) | (fg & 0x0F);
@@ -48,7 +47,7 @@ static void fb_set_color(unsigned char fg, unsigned char bg) {
 	fg_color = fg;
 	bg_color = bg;
 }
-
+	
 /**
  * Clears the screen
  */
@@ -59,6 +58,20 @@ static void fb_clear(void) {
 	}
 }
 
+static void fb_scroll_screen() {
+
+	unsigned int end;
+	
+	for(unsigned int i = 0; i < (80 * 24); i++) {
+		fb[i * 2] = fb[(i+80) * 2];
+		fb[i * 2 + 1] = fb[(i+80) * 2 + 1];
+		end = i;
+	}
+
+	for(unsigned int i = end; i < end + 80; i++) {
+		fb[i * 2] = ' ';
+	}
+}
 
 /**
  * Prints the given string to the screen
@@ -84,7 +97,7 @@ int fb_write(char *buf) {
 			case '\r':
 				cursor_pos -= (cursor_pos % 80) + 1;
 				break;
-			case 0x08:
+			case 0x08:	//delete key
 				cursor_pos--;
 				fb_write_char(cursor_pos, ' ',fg_color, bg_color);
 				cursor_pos--;
@@ -98,6 +111,12 @@ int fb_write(char *buf) {
 		fb_move_cursor(cursor_pos);
 
 		buf++;
+
+		if(cursor_pos >= (80 * 25)) {
+			fb_scroll_screen();
+			cursor_pos -= 80;
+			fb_move_cursor(cursor_pos);
+		}
 	}
 
 	return 0;
