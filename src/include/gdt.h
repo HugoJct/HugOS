@@ -60,16 +60,32 @@ struct gdt {
 	unsigned int address;
 } __attribute__((packed));
 
-/**
- *	gdt.c
+/* ============= */
+/* ====gdt.c==== */
+/* ============= */
+
+/** gdt_init:
+ *
+ * Initializes the Global Descriptor Table (GDT)
  */
-void gdt_init_desc(struct segment_descriptor *desc, uint32_t base, uint32_t limit, uint16_t flag);
 void gdt_init(void);
 
-/**
- *	lgdt.s
+/* ============== */
+/* ====lgdt.s==== */
+/* ============== */
+
+/** load_gdt:
+ *
+ * Loads the provided GDT in memory
+ *
+ * @param table: The address of the GDT to load
  */
 void load_gdt(struct gdt *table);
+
+/** gdt_init_reg:
+ *
+ * Initializes the segment registers with the correct values 
+ */
 void gdt_init_reg(void);
 
 #endif

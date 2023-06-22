@@ -37,8 +37,36 @@ struct idtr_t {
 	unsigned int address;
 } __attribute__((packed)) ;
 
+/* =============== */
+/* =====idt.s===== */
+/* =============== */
+
+/** load_idt:
+ *
+ * Loads the provided Interrupt Descriptor Table in memory
+ *
+ * @param addr: 	The address of the IDT to load
+ */
 void load_idt(struct idtr_t *addr);
 
+/* ============== */
+/* =interrupts.c= */
+/* ============== */
+
+/** idt_interrupt_handler:
+ *
+ * The function that is called when an interruption occurs
+ *
+ * @param cpu:		The CPU registers values before interruption
+ * @param interrupt:	The number of the interrupt
+ * @param stack:	The state of the stack before the interruption
+ */
+void idt_interrupt_handler(struct cpu_state cpu, unsigned int interrupt, struct stack_state stack);
+
+/** idt_init:
+ *
+ * Initializes the IDT
+ */
 void idt_init();
 
 #endif

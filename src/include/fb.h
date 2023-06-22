@@ -26,20 +26,26 @@ enum color {
 	FB_WHITE
 };
 
-/**
+/** fb_info:
+ *
  * Writes a white message on the screen
+ *
  * @param msg	The message to display
  */
 void fb_info(char *msg);
 
-/**
+/** fb_success:
+ *
  * Writes a green message on the screen
+ *
  * @param msg	The message to display
  */
 void fb_success(char *msg);
 
-/**
+/** fb_error:
+ *
  * Writes a red message on the screen
+ *
  * @param msg	The message to display
  */
 void fb_error(char *msg);

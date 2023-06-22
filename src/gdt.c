@@ -6,7 +6,11 @@
 static struct segment_descriptor _gdt_segments[GDT_SEGMENTS_COUNT];
 static struct gdt _gdt;
 
-void gdt_init_desc(struct segment_descriptor *desc, uint32_t base, uint32_t limit, uint16_t flag) {
+/** gdt_init_desc:
+ *
+ * Initializes a descriptor with the provided values
+ */
+static void gdt_init_desc(struct segment_descriptor *desc, uint32_t base, uint32_t limit, uint16_t flag) {
 
 	uint64_t descriptor;
 
