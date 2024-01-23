@@ -4,3 +4,4 @@ kernel.elf
 *.backup
 /build
 /.vscode
+/.idea
