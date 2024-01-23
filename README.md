@@ -4,6 +4,19 @@
 
 `sudo apt install qemu-system-x86 build-essential nasm genisoimage`
 
+## Done
+
+- [x] Bootloader
+- [x] OS Compilation
+- [x] Stack 
+- [x] Calling C from assembly
+- [x] C compilation
+- [x] Framebuffer
+  - [x] Writing text
+  - [x] Moving the cursor
+
+## TODO
+
 ## Features Journal
 
 ### **17/05/2023**:
