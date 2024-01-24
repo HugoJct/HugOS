@@ -52,3 +52,8 @@ A page directory that can contain references to 1024 **page tables**, each of wh
 All page directories, **page tables** and page frames need to be aligned on 4096 byte addresses. This makes it possible to address a **page directory**, **page tables** or **page frames** with just the highest 20 bits of a 32 bit address, since the lowest 12 need to be zero.
 
 *The translation of linear addresses to physical addresses is described in the figure below*
+
+## Ressources
+
+- Modern Operating Systems - Andrew S. Tanenbaum
+- The Little book About OS Developpement - Erik Helin & Adam Renberg : https://littleosbook.github.io
