@@ -24,6 +24,9 @@
 - Page frame allocator
 - User mode
 
+- API appels systèmes
+
+
 ## Worklog
 
 ### 17/01/24
@@ -32,9 +35,23 @@ Validation du sujet et discussions des objectifs à atteindre
 
 ### 24/01/24
 
+**Travail de la semaine :**
+
 - documentation du code en l'état actuel
-- listing des points techniques déjà implémentés et de ceux à faire en priorité
-- documentation sur les fonctionnalités à commencer à implémenter pour la semaine suivante (paging, page frame allocator, user mode)
+- listing des points techniques déjà implémentés et de ceux à faire en priorité.
+- documentation sur les fonctionnalités à commencer à implémenter pour la semaine suivante (paging, page frame allocator, user mode).
+
+**Compte rendu de réunion :**
+
+- Le paging (virtual memory) semble un peu ambitieux pour la semaine prochaine, on va commencer par travailler sur la segmentation, une API pour gérer les appels systèmes (sans mode protégé). Penser à un système de multitâche coopératif pour que les processus rende la main au noyau (sorte d'appel système) et que le système choisisse le processus suivant à exécuter.
+- Stub de l'API pour les appels systèmes.
+- Primordial d'implémenter des appels systèmes et changer l'affichage du texte en mode graphique (framebuffer) pour qu'il utilise des appels systèmes. Regardez TRAP X86 pour les appels systèmes ou le int spécial (combinaison des 2 ?).
+- Voir pour gérer l'exécution des processus en mode protégé (user mode) pour éviter qu'ils ne puissent accéder à la mémoire du noyau.
+- Il faut que grub lance un noyau en mode réel, donc il faut charger un exécutable elf qui sera en mode protégé. D'abord, dans le noyau, il faut implémenter l'API pour les appels systèmes et le mode protégé. Ensuite il est passif, il attend qu'on l'appel via une intéruptions. Faire attention aux structures de donner du noyau pour sauvegarder les états en prévision de l'arrivé du context switch.
+
+- écrire le noyau qui va charger quelque chose
+- Faire un mode protégé, segmentation
+- 2 appels systèmes (exit et écriture dans le framebuffer)
 
 ## Brainstorm
 
