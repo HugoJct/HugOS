@@ -55,6 +55,10 @@ All page directories, **page tables** and page frames need to be aligned on 4096
 
 *The translation of linear addresses to physical addresses is described in the figure below*
 
+**Mapping from virtual addresses to physical addresses exemple :**
+
+![Paging exemple](res/images/paging_exemple.png)
+
 ## Terminologies
 
 - **Logical Address or Virtual Address:** This is a deal that is generated through the CPU and used by a technique to get the right of entry to reminiscence. It is known as a logical or digital deal because it isn’t always a physical vicinity in memory but an opportunity for a connection with a place inside the device’s logical address location.
