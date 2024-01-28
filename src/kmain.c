@@ -15,11 +15,14 @@ int kmain(unsigned int ebx) {
 	fb_info("Hello World !\n");
 
   multiboot_info_t *mbinfo = (multiboot_info_t *) ebx;
-  unsigned int infinite_loop_module = mbinfo->mods_addr;
+  multiboot_module_t *modules = (multiboot_module_t *) mbinfo->mods_addr;
 
-  call_module_t start_infinite = (call_module_t) infinite_loop_module;
+  unsigned int module_addr = modules->mod_start;
+  call_module_t start_program = (call_module_t) module_addr;
 
-  start_infinite();
+  fb_info("launching module");
+  start_program();
+
   while(1) {
     fb_info("loop");
   }

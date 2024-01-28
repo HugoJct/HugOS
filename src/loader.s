@@ -1,7 +1,8 @@
 global loader                   ; the entry symbol for ELF
+extern kmain
 
 MAGIC_NUMBER 		equ 0x1BADB002     ; define the magic number constant
-ALIGN_MODULES   equ 0x00000001
+ALIGN_MODULES   equ 0x1
 CHECKSUM     		equ -(MAGIC_NUMBER + ALIGN_MODULES) ; calculate the checksum
 
 KERNEL_STACK_SIZE 	equ 16384
@@ -27,6 +28,5 @@ loader:                         ; the loader label (defined as entry point in li
 	mov esp, kernel_stack + KERNEL_STACK_SIZE 	;initialize the stack pointer
 
   push ebx
-	extern kmain
 	call kmain		;call main function 
 ;===============================;
