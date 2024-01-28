@@ -21,6 +21,9 @@ void idt_interrupt_handler(struct cpu_state cpu, unsigned int interrupt, struct 
 		case 0:
 			fb_error("Division Error !");
 			break;
+    case 6:
+			fb_error("Invalid opcode !");
+      break;
 		case 8:
 			fb_error("Double Fault !");
 			break;

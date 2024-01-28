@@ -18,6 +18,7 @@ all: iso/boot/kernel.elf os.iso
 
 iso/boot/kernel.elf: $(S_OBJECTS) $(C_OBJECTS)
 	ld $(LDFLAGS) $^ -o iso/boot/kernel.elf
+	nasm -f bin -g iso/modules/infinite_loop.s -o iso/modules/program
 
 os.iso: iso/boot/kernel.elf
 	genisoimage -R                              \
