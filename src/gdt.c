@@ -36,6 +36,10 @@ static void gdt_init_desc(struct segment_descriptor *desc, uint32_t base, uint32
 	desc->base_high = (descriptor >> 56) & 0xFF;
 }
 
+/** gdt_init:
+ *
+ * Initializes the Global Descriptor Table
+ */
 void gdt_init() {
 
 	fb_info("[GDT] - Initializing...\n");
