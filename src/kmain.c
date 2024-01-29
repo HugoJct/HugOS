@@ -3,6 +3,8 @@
 #include "pic.h"
 #include "gdt.h"
 #include "multiboot_header.h"
+#include "software_interrupt.h"
+#include "syscall.h"
 
 typedef void (*call_module_t)(void);
 
@@ -20,11 +22,14 @@ int kmain(unsigned int ebx) {
   unsigned int module_addr = modules->mod_start;
   call_module_t start_program = (call_module_t) module_addr;
 
-  fb_info("launching module");
+  print();
+  inter(1);
+
+  fb_info("launching module\n");
   start_program();
 
   while(1) {
-    fb_info("loop");
+    fb_info("loop\n");
   }
 
 	return 0;

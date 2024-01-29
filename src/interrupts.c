@@ -3,6 +3,7 @@
 #include "pic.h"
 #include "io.h"
 #include "keyboard.h"
+#include "syscall.h"
 
 #define IDT_MAX_DESCRIPTORS 256
 
@@ -14,7 +15,6 @@ static struct idtr_t _table;
 
 void idt_interrupt_handler(struct cpu_state cpu, unsigned int interrupt, struct stack_state stack) {
 
-	(void) cpu;
 	(void) stack;
 
 	switch(interrupt) {
@@ -36,6 +36,16 @@ void idt_interrupt_handler(struct cpu_state cpu, unsigned int interrupt, struct 
 		case 33:
 			keyboard_handle_interruption();
 			break;
+    case 40:  //syscalls
+      switch(cpu.eax == 0) {
+        case 0:
+          fb_info("print syscall\n");
+          break;
+        default:
+          fb_info("unknown syscall\n");
+          break;
+      }
+      break;
 		default:
 			fb_info("Interruption fired !");
 	}
@@ -61,7 +71,7 @@ void idt_init() {
 	_table.size = sizeof(struct idt_entry) * IDT_MAX_DESCRIPTORS - 1;
 	_table.address = (unsigned int) _idt_entries;
 
-	for(uint8_t i = 0; i < 34; i++) {
+	for(uint8_t i = 0; i < 41; i++) {
 
 		idt_init_entry(&_idt_entries[i], isr_stub_table[i], 0x8E);
 	}
