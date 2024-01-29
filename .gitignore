@@ -1,7 +1,15 @@
+#Object files
 *.o
+/build
+
+#Generated kernel files
 os.iso
 kernel.elf
-*.backup
-/build
+iso/modules/program
+
+#IDE specific
 /.vscode
 /.idea
+
+#Others
+*.backup
