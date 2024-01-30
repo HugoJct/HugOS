@@ -14,23 +14,28 @@ S_OBJECTS=$(S_SRC:$(SRC_DIR)/%.s=$(BUILD_DIR)/%.o)
 C_SRC=$(wildcard $(SRC_DIR)/*.c)
 C_OBJECTS=$(C_SRC:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o) 
 
-all: iso/boot/kernel.elf os.iso
+SOURCE_FILES := $(wildcard src/grub_modules/*.s)
+DEST_DIR := iso/modules
+
+$(DEST_DIR)/%: src/grub_modules/%.s | $(DEST_DIR)
+	nasm -f bin -g $< -o $@
+
+all: $(patsubst src/grub_modules/%.s,$(DEST_DIR)/%,$(SOURCE_FILES)) iso/boot/kernel.elf os.iso
 
 iso/boot/kernel.elf: $(S_OBJECTS) $(C_OBJECTS)
 	ld $(LDFLAGS) $^ -o iso/boot/kernel.elf
-	nasm -f bin -g src/grub_modules/infinite.s -o iso/modules/program
 
-os.iso: iso/boot/kernel.elf
+os.iso: iso/boot/kernel.elf $(patsubst src/grub_modules/%.s,$(DEST_DIR)/%,$(SOURCE_FILES))
 	genisoimage -R                              \
-		-b boot/grub/stage2_eltorito    \
-		-no-emul-boot                   \
-		-boot-load-size 4               \
-		-A os                           \
-		-input-charset utf8             \
-		-quiet                          \
-		-boot-info-table                \
-		-o os.iso                       \
-		iso
+        -b boot/grub/stage2_eltorito    \
+        -no-emul-boot                   \
+        -boot-load-size 4               \
+        -A os                           \
+        -input-charset utf8             \
+        -quiet                          \
+        -boot-info-table                \
+        -o os.iso                       \
+        iso
 
 run: os.iso
 	qemu-system-i386 -monitor stdio -cdrom os.iso -m 1G
@@ -47,5 +52,8 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(BUILD_DIR)
 $(BUILD_DIR):
 	@mkdir -p build
 
+$(DEST_DIR):
+	@mkdir -p $(DEST_DIR)
+
 clean:
-	rm -rf *.o kernel.elf os.iso build/ iso/boot/kernel.elf
+	rm -rf *.o kernel.elf os.iso build/ iso/boot/kernel.elf iso/modules/*
