@@ -58,6 +58,15 @@ Validation du sujet et discussions des objectifs à atteindre
 
 ![Kernel](res/images/kernel.png)
 
+### 31/01/2024
+
+- Compilation programme externe (embarqué) sans context switch
+
+**Compte rendu de réunion :**
+
+- penser à faire un scheduling primitif qui embarque plusieurs programmes et qui les exécute à tour de rôle
+- continuer à voir les appels systèmes
+
 ## Brainstorm
 
 ### Paging
@@ -92,3 +101,6 @@ All page directories, **page tables** and page frames need to be aligned on 4096
 
 - Modern Operating Systems - Andrew S. Tanenbaum
 - The Little book About OS Developpement - Erik Helin & Adam Renberg : https://littleosbook.github.io
+- The logical design of operating systems - Lubomir Bic & Alan C. Shaw
+- ia-64 linux kernel, design and implementation - David Mosberger & Stephane Eranian
+- The design of the UNIX operating system - Maurice J. Bach
