@@ -67,6 +67,17 @@ Validation du sujet et discussions des objectifs à atteindre
 - penser à faire un scheduling primitif qui embarque plusieurs programmes et qui les exécute à tour de rôle
 - continuer à voir les appels systèmes
 
+### 07/02/2024
+
+- Embarquer plusieurs programmes dans le noyau et les lancer à la suite
+
+**Compte rendu de réunion :**
+
+- Continuer à voir les appels systèmes
+- Faire un appel système qui ne fait "rien" pour voir comment ça marche et vérifier qu'on revient bien à l'état appelant
+  - exécuter 2 programme : un qui dit "bonjour", l'autre "au revoir" via un appel système 
+- regarder le code du noyau linux pour context switch
+
 ## Brainstorm
 
 ### Paging
