@@ -67,6 +67,17 @@ Validation du sujet et discussions des objectifs à atteindre
 - penser à faire un scheduling primitif qui embarque plusieurs programmes et qui les exécute à tour de rôle
 - continuer à voir les appels systèmes
 
+### 07/02/2024
+
+- Embarquer plusieurs programmes dans le noyau et les lancer à la suite
+
+**Compte rendu de réunion :**
+
+- Continuer à voir les appels systèmes
+- Faire un appel système qui ne fait "rien" pour voir comment ça marche et vérifier qu'on revient bien à l'état appelant
+  - exécuter 2 programme : un qui dit "bonjour", l'autre "au revoir" via un appel système 
+- regarder le code du noyau linux pour context switch
+
 ## Brainstorm
 
 ### Paging
@@ -104,3 +115,5 @@ All page directories, **page tables** and page frames need to be aligned on 4096
 - The logical design of operating systems - Lubomir Bic & Alan C. Shaw
 - ia-64 linux kernel, design and implementation - David Mosberger & Stephane Eranian
 - The design of the UNIX operating system - Maurice J. Bach
+- Operating System Design: The XINU Approach - Douglas Comer : https://api.pageplace.de/preview/DT0400.9781498712446_A36322972/preview-9781498712446_A36322972.pdf
+- Linux Source Code : https://elixir.bootlin.com/linux/latest/source
