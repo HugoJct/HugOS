@@ -1,4 +1,5 @@
 BITS 32
-loop_module:
-mov ebx, 0xDEADBEEF
-jmp loop_module
+
+mov eax, 0
+int 0x28
+ret
