@@ -115,3 +115,5 @@ All page directories, **page tables** and page frames need to be aligned on 4096
 - The logical design of operating systems - Lubomir Bic & Alan C. Shaw
 - ia-64 linux kernel, design and implementation - David Mosberger & Stephane Eranian
 - The design of the UNIX operating system - Maurice J. Bach
+- Operating System Design: The XINU Approach - Douglas Comer : https://api.pageplace.de/preview/DT0400.9781498712446_A36322972/preview-9781498712446_A36322972.pdf
+- Linux Source Code : https://elixir.bootlin.com/linux/latest/source
