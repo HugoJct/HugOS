@@ -37,7 +37,7 @@ void idt_interrupt_handler(struct cpu_state cpu, unsigned int interrupt, struct 
 			keyboard_handle_interruption();
 			break;
     case 40:  //syscalls
-      switch(cpu.eax == 0) {
+      switch(cpu.eax) {
         case 0:
           fb_info("print syscall\n");
           break;

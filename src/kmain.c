@@ -20,17 +20,15 @@ int kmain(unsigned int ebx) {
     multiboot_module_t *modules = (multiboot_module_t *) mbinfo->mods_addr;
 
     for (unsigned int i = 0; mbinfo->flags & MULTIBOOT_INFO_MODS && i < mbinfo->mods_count; i++) {
+      fb_info("launching module\n");
         unsigned int module_addr = modules[i].mod_start;
 
         call_module_t start_module = (call_module_t) module_addr;
 
-        print();
-        inter(1);
-
         start_module();
+      fb_info("end of module\n");
     }
 
-    fb_info("launching module\n");
 
     while (1) {
         fb_info("loop\n");

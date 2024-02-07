@@ -5,7 +5,7 @@
 #Generated kernel files
 os.iso
 kernel.elf
-iso/modules/program
+iso/modules/
 
 #IDE specific
 /.vscode

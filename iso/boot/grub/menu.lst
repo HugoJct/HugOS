@@ -4,3 +4,4 @@ timeout=2
 title os
   kernel /boot/kernel.elf
   module /modules/infinite
+  module /modules/test
