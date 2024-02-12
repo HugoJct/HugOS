@@ -1,5 +1,6 @@
 target remote | exec qemu-system-i386 -gdb stdio -cdrom os.iso -m 1G 
 exec-file iso/boot/kernel.elf
 file iso/boot/kernel.elf
+b idt_interrupt_handler
 b kmain
 c

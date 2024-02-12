@@ -3,7 +3,6 @@
 #include "pic.h"
 #include "io.h"
 #include "keyboard.h"
-#include "syscall.h"
 
 #define IDT_MAX_DESCRIPTORS 256
 
@@ -39,7 +38,11 @@ void idt_interrupt_handler(struct cpu_state cpu, unsigned int interrupt, struct 
     case 40:  //syscalls
       switch(cpu.eax) {
         case 0:
-          fb_info("print syscall\n");
+          char str[] = {
+            (char) cpu.edx,
+            (char) 0,
+          };
+          fb_info(str);
           break;
         default:
           fb_info("unknown syscall\n");
@@ -51,8 +54,6 @@ void idt_interrupt_handler(struct cpu_state cpu, unsigned int interrupt, struct 
 	}
 
 	pic_acknowledge(interrupt);
-
-	return;
 }
 
 static void idt_init_entry(struct idt_entry *entry, void *function, uint8_t flags) {
