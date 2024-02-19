@@ -3,6 +3,7 @@
 #include "pic.h"
 #include "gdt.h"
 #include "multiboot_header.h"
+#include "scheduler.h"
 
 typedef void (*call_module_t)(void);
 
@@ -21,12 +22,23 @@ int kmain(unsigned int ebx) {
     //fb_info("launching module\n");
     unsigned int module_addr = modules[i].mod_start;
 
-    call_module_t start_module = (call_module_t) module_addr;
+    struct stack_state st = {
+      .eip = module_addr,
+      .cs = 0x08,
+    };
 
-    start_module();
+    struct process_state pstate = {
+      .stack = st
+    };
+
+    sched_update_process(i, &pstate);
+    // call_module_t start_module = (call_module_t) module_addr;
+    // start_module();
     //fb_info("end of module\n");
   }
 
+  call_module_t start_module = (call_module_t) modules[0].mod_start;
+  start_module();
 
   while (1) {
   }

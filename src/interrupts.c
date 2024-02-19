@@ -3,6 +3,7 @@
 #include "pic.h"
 #include "io.h"
 #include "keyboard.h"
+#include "scheduler.h"
 
 #define IDT_MAX_DESCRIPTORS 256
 
@@ -43,6 +44,20 @@ void idt_interrupt_handler(struct cpu_state cpu, unsigned int interrupt, struct 
             (char) 0,
           };
           fb_info(str);
+          break;
+        case 1: //yield
+          int current_process = cpu.edx;
+          struct process_state current_state = {
+            .cpu = cpu,
+            .stack = stack,
+          };
+
+          sched_update_process(current_process, &current_state);
+          
+          struct process_state *new_state = sched_get_next_process(current_process);
+          cpu = new_state->cpu;
+          stack = new_state->stack;
+
           break;
         default:
           fb_info("unknown syscall\n");

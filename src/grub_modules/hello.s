@@ -16,6 +16,15 @@ mov edx, s3
 mov eax, 0
 int 0x28
 
+;yield
+;=======
+
+mov edx, 0
+mov eax, 1
+int 0x28
+
+;=======
+
 mov edx, s4
 mov eax, 0
 int 0x28
