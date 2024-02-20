@@ -14,20 +14,29 @@ struct idt_entry {
 
 struct cpu_state {
 
+    /*general use registers*/
 	unsigned int eax;
 	unsigned int ecx;
 	unsigned int edx;
 	unsigned int ebx;
-	unsigned int esp;
-	unsigned int ebp;
-	unsigned int esi;
+
+    /*top stack*/
+    unsigned int esp;
+	/*bottom stack*/
+    unsigned int ebp;
+
+    /*source index*/
+    unsigned int esi;
+    /*dest index*/
 	unsigned int edi;
 } __attribute__((packed));
 
 struct stack_state {
 
 	unsigned int error_code;
-	unsigned int eip;
+	/*addr next instruction*/
+    unsigned int eip;
+    /*code segment index*/
 	unsigned int cs;
 	unsigned int eflags;
 } __attribute__((packed));

@@ -16,6 +16,16 @@ mov edx, s5
 mov eax, 0
 int 0x28
 
+;yield
+;=======
+
+mov edx, 1
+mov eax, 1
+int 0x28
+
+;=======
+
+
 ret
 
 s0 equ 'B'

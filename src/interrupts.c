@@ -15,8 +15,6 @@ static struct idtr_t _table;
 
 void idt_interrupt_handler(struct cpu_state cpu, unsigned int interrupt, struct stack_state stack) {
 
-	(void) stack;
-
 	switch(interrupt) {
 		case 0:
 			fb_error("Division Error !");
@@ -38,27 +36,38 @@ void idt_interrupt_handler(struct cpu_state cpu, unsigned int interrupt, struct 
 			break;
     case 40:  //syscalls
       switch(cpu.eax) {
-        case 0:
-          char str[] = {
-            (char) cpu.edx,
-            (char) 0,
-          };
-          fb_info(str);
-          break;
-        case 1: //yield
-          int current_process = cpu.edx;
-          struct process_state current_state = {
-            .cpu = cpu,
-            .stack = stack,
-          };
+        case 0: {
+            char str[] = {
+                    (char) cpu.edx,
+                    (char) 0,
+            };
+            fb_info(str);
+            break;
+        }
+        case 1: { //yield
+            int current_process = (int) cpu.edx;
+            struct process_state current_state = {
+                    .cpu = cpu,
+                    .stack = stack,
+            };
 
-          sched_update_process(current_process, &current_state);
-          
-          struct process_state *new_state = sched_get_next_process(current_process);
-          cpu = new_state->cpu;
-          stack = new_state->stack;
+            sched_update_process(current_process, &current_state);
 
-          break;
+            struct process_state *new_state = sched_get_next_process(current_process);
+            cpu.eax = new_state->cpu.eax;
+            cpu.ecx = new_state->cpu.ecx;
+            cpu.edx = new_state->cpu.edx;
+            cpu.ebx = new_state->cpu.ebx;
+            //TODO: cpu.esp = new_state->cpu.esp;
+            // ne pas utiliser edx mais le top de la pile pour passer l'id du module
+            cpu.ebp = new_state->cpu.ebp;
+            cpu.esi = new_state->cpu.esi;
+            cpu.edi = new_state->cpu.edi;
+
+            stack = new_state->stack;
+
+            break;
+        }
         default:
           fb_info("unknown syscall\n");
           break;
@@ -73,7 +82,7 @@ void idt_interrupt_handler(struct cpu_state cpu, unsigned int interrupt, struct 
 
 static void idt_init_entry(struct idt_entry *entry, void *function, uint8_t flags) {
 
-	entry->isr_low = (uint32_t) function & 0xFFFF;	
+	entry->isr_low = (uint32_t) function & 0xFFFF;
 	entry->kernel_cs = 0x08;
 	entry->reserved = 0;
 	entry->attributes = flags;
