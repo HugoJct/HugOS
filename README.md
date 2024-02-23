@@ -78,6 +78,17 @@ Validation du sujet et discussions des objectifs à atteindre
   - exécuter 2 programme : un qui dit "bonjour", l'autre "au revoir" via un appel système 
 - regarder le code du noyau linux pour context switch
 
+### 21/02/2024
+
+- Yield, coroutines
+
+**Compte rendu de réunion :**
+
+- il faut afficher d'un seul coup (sorte de print)
+- le contexte switch doit se faire dans la routine
+- le yield doit être en dehors du processus
+- faire spawn des processus depuis les programme
+
 ## Brainstorm
 
 ### Paging
@@ -107,6 +118,9 @@ All page directories, **page tables** and page frames need to be aligned on 4096
 - **Logical Address Space or Virtual Address Space:** This is the set of all logical addresses generated via a software program. It is normally represented in phrases or bytes and is split into regular-duration pages in a paging scheme.
 - **Physical Address:** This is a cope that corresponds to a bodily place in reminiscence. It is the actual cope with this that is available on the memory unit and is used by the memory controller to get admission to the reminiscence.
 - **Physical Address Space:** This is the set of all bodily addresses that correspond to the logical addresses inside the way’s logical deal with place. It is usually represented in words or bytes and is cut up into fixed-size frames in a paging scheme.
+
+
+
 
 ## Ressources
 
