@@ -89,6 +89,10 @@ Validation du sujet et discussions des objectifs à atteindre
 - le yield doit être en dehors du processus
 - faire spawn des processus depuis les programme
 
+### 28/02/2024
+
+Continuer d'avancer mais commencer à rédiger le document sur le travail réalisé, comment tout fonctionne...
+
 ## Brainstorm
 
 ### Paging
