@@ -91,7 +91,9 @@ Validation du sujet et discussions des objectifs à atteindre
 
 ### 28/02/2024
 
-Continuer d'avancer mais commencer à rédiger le document sur le travail réalisé, comment tout fonctionne...
+- exit
+- Voir pour spawn ou fork, exec
+- Continuer d'avancer mais commencer à rédiger le document sur le travail réalisé, comment tout fonctionne...
 
 ## Brainstorm
 
