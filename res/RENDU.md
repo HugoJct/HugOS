@@ -20,16 +20,19 @@ TODO
 Nous voulions comprendre le plus en profondeur possible le fonctionnement d'un 
 système d'exploitation de type UNIX à un niveau très bas. 
 
-Nous avons donc décidé d'entreprendre la réalisation d'une implémentation 
-minimale d'un noyau en partant de zéro avec pour objectif d'arriver le plus loin 
-possible.
+Nous avons donc décidé d'entreprendre la conception minimale d'un noyau en partant de zéro avec pour objectif d'arriver le plus loin possible.
 
 ---
 
 ### Qu'est-ce qu'un noyau ?
 
-TODO
+Le noyau d'un système d'exploitation (parfois appelé *kernel* de l'anglais) est un programme unique permettant la communication entre le matériel et le logiciel. 
+C'est une partie essentielle dans la plupart des systèmes car elle fournit des méthodes d'abstraction aussi bien matériel pour la gestion des composants physiques que logiciel pour les échanges d'informations entre processus ou l'ordonancement des tâches.
 
+Dans beaucoup d'implémentations un noyau permet une segmentation de la mémoire vive en deux espaces disjoints, l'un pour l'espace noyau et un autre pour l'espace utilisateur, afin de séparer la zone noyau où les actions critiques sont effectuées d'une zone utilisateur où la mémoire est protégée. 
+
+Au service des processus, le noyau offre un ensemble de fonctionnalités accessibles au travers des appels système ainsi que la transmission ou la lecture du matériel par l'intermédiare des interruptions. Tout ceci constitue les entrées sorties, souvent noté *I/O*. Le noyau du système d'exploitation forme donc un ensemble de fonctions pouvant être appelées par des processus souhaitant effectuer des actions "critiques" nécessitant un certain niveau de permissions. Le noyau prend à ce moment là le relais du processus.
+ 
 ---
 
 ## État initial du projet
